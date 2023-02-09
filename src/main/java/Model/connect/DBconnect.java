@@ -1,9 +1,8 @@
-package context;
+package Model.connect;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
-public class DBcontext {
+public class DBconnect {
 
 	public Connection getConnection() throws Exception {
 		String dbURL = "jdbc:mysql://" + serverName + ":" + portNumber + "/" + dbName;
@@ -13,7 +12,7 @@ public class DBcontext {
 
 	private final String serverName = "localhost";
 	private final String portNumber = "3306";
-	private final String dbName = "cafeshoponlinedemo";
+	private final String dbName = "assignment2";
 	private String dbUserName = "root";
 	private String dbPassword = "123456";
 }

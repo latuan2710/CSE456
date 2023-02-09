@@ -1,3 +1,7 @@
-DAO\userDAO.class
-context\DBcontext.class
-entity\userInfor.class
+Controller\LoginServlet.class
+Controller\RegisterUserServlet.class
+Controller\ManageUserServlet.class
+Model\manager\UserManager.class
+Model\entity\User.class
+Model\DAO\userDAO.class
+Model\connect\DBconnect.class
