@@ -1,3 +1,7 @@
-D:\CODE\github\CSE456\Assignment2\src\main\java\entity\userInfor.java
-D:\CODE\github\CSE456\Assignment2\src\main\java\context\DBcontext.java
-D:\CODE\github\CSE456\Assignment2\src\main\java\DAO\userDAO.java
+D:\CODE\github\CSE456\src\main\java\Controller\ManageUserServlet.java
+D:\CODE\github\CSE456\src\main\java\Model\entity\User.java
+D:\CODE\github\CSE456\src\main\java\Model\connect\DBconnect.java
+D:\CODE\github\CSE456\src\main\java\Controller\LoginServlet.java
+D:\CODE\github\CSE456\src\main\java\Model\DAO\userDAO.java
+D:\CODE\github\CSE456\src\main\java\Controller\RegisterUserServlet.java
+D:\CODE\github\CSE456\src\main\java\Model\manager\UserManager.java
