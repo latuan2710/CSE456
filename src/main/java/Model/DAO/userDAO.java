@@ -20,8 +20,9 @@ public class userDAO {
     private String INSERT_USER = "INSERT INTO user_auth" + "(userId,userName,userPassword,userEmail,userAddress,userPhone) VALUES" + "(?,?,?,?,?,?);";
     private String SELECT_USER_BY_ID = "SELECT * FROM user_auth where userId='?'";
     private String SELECT_ALL_USERS = "SELECT * FROM user_auth;";
-    private String SEND_MONEY;
-    private String WITHDRAW_MONEY;
+    private String SEND_CUR_MONEY = "UPDATE current_acc SET curBalance = curBalance + ? WHERE userId = ?";
+    private String WITHDRAW_CUR_MONEY = "UPDATE current_acc SET curBalance = curBalance - ? WHERE userId = ?";
+    private String CHECK_BALANCE = "SELECT curBalance FROM current_acc where userId = ? ";
 
     public boolean insertUser(User user) {
         try {
@@ -65,5 +66,53 @@ public class userDAO {
             System.out.println(e.getMessage());
         }
         return users;
+    }
+
+    public int checkBalance(int id) {
+        int checkBalance = 0;
+        try {
+            Connection connection = new DBconnect().getConnection();
+            PreparedStatement ps = connection.prepareCall(CHECK_BALANCE);
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                checkBalance = rs.getInt("curBalance");
+            }
+
+        } catch (Exception e) {
+        }
+        return checkBalance;
+    }
+
+    public boolean withdraw(int id, int money) {
+        try {
+            Connection connection = new DBconnect().getConnection();
+            PreparedStatement ps = connection.prepareStatement(WITHDRAW_CUR_MONEY);
+
+            ps.setInt(2, id);
+            ps.setInt(1, money);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
+    }
+
+    public boolean depositToCur(int id, int money) {
+        try {
+            Connection connection = new DBconnect().getConnection();
+            PreparedStatement ps = connection.prepareStatement(SEND_CUR_MONEY);
+
+            ps.setInt(2, id);
+            ps.setInt(1, money);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
     }
 }

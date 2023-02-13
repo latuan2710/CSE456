@@ -48,4 +48,34 @@ public class UserManager {
     public ArrayList getListUsers() {
         return this.listUser = myUserDAO.selectAllUsers();
     }
+
+    public boolean checkUserId(int id) {
+        for (int i = 0; i < listUser.size(); i++) {
+            if (id == listUser.get(i).getUserId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int checkBalance(int id) {
+        if (checkUserId(id) == true) {
+            return myUserDAO.checkBalance(id);
+        }
+        return -1;
+    }
+
+    public boolean withdraw(int id, int money) {
+        myUserDAO.withdraw(id, money);
+        return true;
+
+    }
+
+    public boolean depositToCur(int id, int money) {
+        System.out.println("check 1");
+        myUserDAO.depositToCur(id, money);
+        return true;
+
+    }
+
 }

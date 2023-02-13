@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,20 +37,43 @@ public class LoginServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String target = "";
         try ( PrintWriter out = response.getWriter()) {
-            int iUserId = Integer.valueOf(request.getParameter("userId"));
-            String iPassword = request.getParameter("userPassword");
-            UserManager myUserManager = new UserManager();
-            ArrayList<User> listUsers = myUserManager.getListUsers();
+            String mode = "";
 
-            for (int i = 0; i < listUsers.size(); i++) {
-                int userId = listUsers.get(i).getUserId();
-                String userPass = listUsers.get(i).getUserPassword();
+            mode = (String) request.getParameter("mode");
+            System.out.println(mode);
+            if (mode.equals("logOut")) {
+                target = "index.jsp";
+                RequestDispatcher rd = request.getRequestDispatcher(target);
+                rd.forward(request, response);
+            }
 
-                if (iUserId == userId && iPassword.equals(userPass)) {
-                    System.out.println("success");
-                    target = "homePage.jsp";
+            if (mode.equals("login")) {
+                int iUserId = Integer.valueOf(request.getParameter("userId"));
+                String iPassword = request.getParameter("userPassword");
+
+                UserManager myUserManager = new UserManager();
+                ArrayList<User> listUsers = myUserManager.getListUsers();
+
+                for (int i = 0; i < listUsers.size(); i++) {
+                    int userId = listUsers.get(i).getUserId();
+                    String userPass = listUsers.get(i).getUserPassword();
+                    if (iUserId == userId && iPassword.equals(userPass)) {
+                        String name = listUsers.get(i).getUserName();
+                        int money = myUserManager.checkBalance(iUserId);
+
+                        request.setAttribute("userName", name);
+                        request.setAttribute("userBalance", money);
+                        request.setAttribute("userId", iUserId);
+
+                        HttpSession mySession = request.getSession();
+                        mySession.setAttribute("userId", iUserId);
+
+                        System.out.println("Login Success");
+                        target = "homePage.jsp";
+                    }
                 }
-            };
+            }
+
             System.out.println(target);
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
@@ -57,7 +81,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

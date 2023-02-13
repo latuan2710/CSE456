@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -34,10 +35,26 @@ public class ManageUserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         try ( PrintWriter out = response.getWriter()) {
+
             UserManager myUserManager = new UserManager();
 
-            ArrayList<User> listUsers = myUserManager.getListUsers();
-            System.out.println(listUsers.size());
+            String mode = request.getParameter("mode");
+            System.out.println(mode);
+
+            HttpSession mySession = request.getSession();
+            int iUserId = (int) mySession.getAttribute("userId");
+           
+            int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
+
+            if (mode.equals("withdraw")) {
+                myUserManager.withdraw(iUserId, iUserMoney);
+                System.out.println("rut tien thanh cong");
+            }
+            
+            if (mode.equals("depositToCur")) {
+                myUserManager.depositToCur(iUserId, iUserMoney);
+                System.out.println("nap tien vao CUR thanh cong");
+            }
         }
     }
 

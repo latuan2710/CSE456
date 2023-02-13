@@ -16,6 +16,7 @@ public class User {
     private String userEmail;
     private String userAddress;
     private int userPhonenumber;
+    private int userBalance;
 
     public User() {
     }
@@ -35,6 +36,7 @@ public class User {
         this.userEmail = userEmail;
         this.userAddress = userAddress;
         this.userPhonenumber = userPhonenumber;
+        
     }
 
     public void setUserId(int userId) {
@@ -83,6 +85,14 @@ public class User {
 
     public int getUserPhonenumber() {
         return userPhonenumber;
+    }
+
+    public void setUserBalance(int userBalance) {
+        this.userBalance = userBalance;
+    }
+
+    public int getUserBalance() {
+        return userBalance;
     }
 
 }
