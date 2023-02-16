@@ -5,6 +5,7 @@
 package Model.manager;
 
 import Model.DAO.userDAO;
+import Model.entity.Transaction;
 import Model.entity.User;
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class UserManager {
 
     private ArrayList<User> listUser;
+    private ArrayList<Transaction> listTransaction;
     private userDAO myUserDAO;
 
     public UserManager() {
@@ -50,6 +52,7 @@ public class UserManager {
     }
 
     public boolean checkUserId(int id) {
+        ArrayList<User> listUser = this.getListUsers();
         for (int i = 0; i < listUser.size(); i++) {
             if (id == listUser.get(i).getUserId()) {
                 return true;
@@ -72,10 +75,23 @@ public class UserManager {
     }
 
     public boolean depositToCur(int id, int money) {
-        System.out.println("check 1");
         myUserDAO.depositToCur(id, money);
         return true;
 
+    }
+
+    public boolean transfer(int id, int money, int anotherId) {
+        System.out.println("check 1");
+        if (checkUserId(id) == true) {
+            myUserDAO.withdraw(id, money);
+            myUserDAO.depositToCur(anotherId, money);
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList getlistTransactions(int id) {
+        return this.listTransaction = myUserDAO.showHistoryDeposit(id);
     }
 
 }

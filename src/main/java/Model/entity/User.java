@@ -36,7 +36,7 @@ public class User {
         this.userEmail = userEmail;
         this.userAddress = userAddress;
         this.userPhonenumber = userPhonenumber;
-        
+
     }
 
     public void setUserId(int userId) {

@@ -53,6 +53,7 @@ public class RegisterUserServlet extends HttpServlet {
 
             if (myUserManager.addUser(newUser)) {
                 System.out.println("Add success");
+                
                 String target = "index.jsp";
 
                 RequestDispatcher requestDispatch = request.getRequestDispatcher(target);

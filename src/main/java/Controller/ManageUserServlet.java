@@ -4,11 +4,12 @@
  */
 package Controller;
 
-import Model.entity.User;
+import Model.entity.Transaction;
 import Model.manager.UserManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,25 +37,53 @@ public class ManageUserServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         try ( PrintWriter out = response.getWriter()) {
 
+            String target = "";
             UserManager myUserManager = new UserManager();
+            HttpSession mySession = request.getSession();
+            int iUserId = (int) mySession.getAttribute("userId");
 
             String mode = request.getParameter("mode");
             System.out.println(mode);
 
-            HttpSession mySession = request.getSession();
-            int iUserId = (int) mySession.getAttribute("userId");
-           
+            if (mode.equals("list")) {
+                System.out.println("check list");
+                ArrayList<Transaction> transactions = myUserManager.getlistTransactions(iUserId);
+                mySession.setAttribute("listTransactions", transactions);
+                target = "homePage.jsp";
+            }
+
             int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
 
             if (mode.equals("withdraw")) {
                 myUserManager.withdraw(iUserId, iUserMoney);
                 System.out.println("rut tien thanh cong");
+                target = "homePage.jsp";
             }
-            
+
             if (mode.equals("depositToCur")) {
                 myUserManager.depositToCur(iUserId, iUserMoney);
                 System.out.println("nap tien vao CUR thanh cong");
+//                mySession.setAttribute("userBalance", myUserManager.checkBalance(iUserId));
+                target = "homePage.jsp";
             }
+
+            if (mode.equals("transfer")) {
+                int receiverId = Integer.valueOf(request.getParameter("receiverId"));
+                if (myUserManager.checkUserId(receiverId) == false) {
+                    System.out.println("Receiver's ID not valid");
+                    target = "homePage.jsp";
+                } else {
+                    myUserManager.transfer(iUserId, iUserMoney, receiverId);
+                    System.out.println("chuyen tien thanh cong");
+//                mySession.setAttribute("userBalance", myUserManager.checkBalance(iUserId));
+                    target = "homePage.jsp";
+                }
+            }
+
+            mySession.setAttribute("userBalance", myUserManager.checkBalance(iUserId));
+            RequestDispatcher rd = request.getRequestDispatcher(target);
+            rd.forward(request, response);
+
         }
     }
 

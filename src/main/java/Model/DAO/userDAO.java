@@ -5,6 +5,7 @@
 package Model.DAO;
 
 import Model.connect.DBconnect;
+import Model.entity.Transaction;
 import Model.entity.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,10 +20,21 @@ public class userDAO {
 
     private String INSERT_USER = "INSERT INTO user_auth" + "(userId,userName,userPassword,userEmail,userAddress,userPhone) VALUES" + "(?,?,?,?,?,?);";
     private String SELECT_USER_BY_ID = "SELECT * FROM user_auth where userId='?'";
+
+    private String SELECT_HISTORY_DEPOSIT = "SELECT userId, addMoney FROM current_acc where userId =?;";
+    private String SELECT_HISTORY_WITHDRAW = "SELECT userId, withdrawMoney FROM current_acc where userId =?;";
+
     private String SELECT_ALL_USERS = "SELECT * FROM user_auth;";
-    private String SEND_CUR_MONEY = "UPDATE current_acc SET curBalance = curBalance + ? WHERE userId = ?";
-    private String WITHDRAW_CUR_MONEY = "UPDATE current_acc SET curBalance = curBalance - ? WHERE userId = ?";
+
+    private String DEPOSIT_CUR = "UPDATE current_acc SET curBalance = curBalance + ? WHERE userId = ?";
+    private String WITHDRAW_CUR = "UPDATE current_acc SET curBalance = curBalance - ? WHERE userId = ?";
+
     private String CHECK_BALANCE = "SELECT curBalance FROM current_acc where userId = ? ";
+
+    private String FIRST_DEPOSIT = "INSERT INTO current_acc (userId,addMoney,withdrawMoney,curBalance) VALUES (?,?,?,?);";
+    private String ADD_HISTORY_DEPOSIT = "INSERT INTO current_acc (userId, addMoney, curBalance) VALUES (?,?,?);";
+
+    private String TRANSFER = "INSERT INTO current_acc (userId, curBalance) VALUES (?,?);";
 
     public boolean insertUser(User user) {
         try {
@@ -35,6 +47,14 @@ public class userDAO {
             ps.setString(4, user.getUserEmail());
             ps.setString(5, user.getUserAddress());
             ps.setInt(6, user.getUserPhonenumber());
+            ps.executeUpdate();
+
+            ps = connection.prepareStatement(FIRST_DEPOSIT);
+
+            ps.setInt(1, user.getUserId());
+            ps.setInt(2, 0);
+            ps.setInt(3, 0);
+            ps.setInt(4, 0);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -89,7 +109,7 @@ public class userDAO {
     public boolean withdraw(int id, int money) {
         try {
             Connection connection = new DBconnect().getConnection();
-            PreparedStatement ps = connection.prepareStatement(WITHDRAW_CUR_MONEY);
+            PreparedStatement ps = connection.prepareStatement(WITHDRAW_CUR);
 
             ps.setInt(2, id);
             ps.setInt(1, money);
@@ -104,15 +124,42 @@ public class userDAO {
     public boolean depositToCur(int id, int money) {
         try {
             Connection connection = new DBconnect().getConnection();
-            PreparedStatement ps = connection.prepareStatement(SEND_CUR_MONEY);
+            PreparedStatement ps = connection.prepareStatement(DEPOSIT_CUR);
 
-            ps.setInt(2, id);
             ps.setInt(1, money);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+
+            ps = connection.prepareStatement(ADD_HISTORY_DEPOSIT);
+            ps.setInt(1, id);
+            ps.setInt(2, money);
+            ps.setInt(3, this.checkBalance(id));
             ps.executeUpdate();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return true;
+    }
+
+    public ArrayList showHistoryDeposit(int id) {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        try {
+            Connection connection = new DBconnect().getConnection();
+            PreparedStatement ps = connection.prepareStatement(SELECT_HISTORY_DEPOSIT);
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int userId = rs.getInt("userId");
+                int money = rs.getInt("addMoney");
+
+                transactions.add(new Transaction(userId, money));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return transactions;
     }
 }
