@@ -1,9 +1,8 @@
-D:\CODE\github\CSE456\src\main\java\Model\entity\Transaction.java
-D:\CODE\github\CSE456\src\main\java\Controller\ManageUserServlet.java
-D:\CODE\github\CSE456\src\main\java\Model\entity\User.java
-D:\CODE\github\CSE456\src\main\java\Model\connect\DBconnect.java
-D:\CODE\github\CSE456\src\main\java\NewServlet.java
-D:\CODE\github\CSE456\src\main\java\Controller\LoginServlet.java
-D:\CODE\github\CSE456\src\main\java\Model\DAO\userDAO.java
-D:\CODE\github\CSE456\src\main\java\Controller\RegisterUserServlet.java
-D:\CODE\github\CSE456\src\main\java\Model\manager\UserManager.java
+E:\GIT\CSE456\src\main\java\Controller\LoginServlet.java
+E:\GIT\CSE456\src\main\java\Model\entity\Transaction.java
+E:\GIT\CSE456\src\main\java\Controller\ManageUserServlet.java
+E:\GIT\CSE456\src\main\java\Model\entity\User.java
+E:\GIT\CSE456\src\main\java\Model\manager\UserManager.java
+E:\GIT\CSE456\src\main\java\Controller\RegisterUserServlet.java
+E:\GIT\CSE456\src\main\java\Model\DAO\userDAO.java
+E:\GIT\CSE456\src\main\java\Model\connect\DBconnect.java

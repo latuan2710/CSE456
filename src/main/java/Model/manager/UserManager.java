@@ -83,8 +83,7 @@ public class UserManager {
     public boolean transfer(int id, int money, int anotherId) {
         System.out.println("check 1");
         if (checkUserId(id) == true) {
-            myUserDAO.withdraw(id, money);
-            myUserDAO.depositToCur(anotherId, money);
+            myUserDAO.transfer(id, anotherId, money);
             return true;
         }
         return false;

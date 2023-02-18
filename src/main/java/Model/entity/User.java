@@ -39,6 +39,16 @@ public class User {
 
     }
 
+    public User(int userId, String userName, String userPassword, String userEmail, String userAddress, int userPhonenumber, int userBalance) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userEmail = userEmail;
+        this.userAddress = userAddress;
+        this.userPhonenumber = userPhonenumber;
+        this.userBalance = userBalance;
+    }
+
     public void setUserId(int userId) {
         this.userId = userId;
     }

@@ -14,5 +14,5 @@ public class DBconnect {
 	private final String portNumber = "3306";
 	private final String dbName = "assignment2";
 	private String dbUserName = "root";
-	private String dbPassword = "123456";
+	private String dbPassword = "root";
 }

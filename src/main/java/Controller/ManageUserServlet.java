@@ -49,18 +49,21 @@ public class ManageUserServlet extends HttpServlet {
                 System.out.println("check list");
                 ArrayList<Transaction> transactions = myUserManager.getlistTransactions(iUserId);
                 mySession.setAttribute("listTransactions", transactions);
+                mySession.setAttribute("displayTransaction", "block");
                 target = "homePage.jsp";
             }
 
-            int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
+            
 
             if (mode.equals("withdraw")) {
+                int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
                 myUserManager.withdraw(iUserId, iUserMoney);
                 System.out.println("rut tien thanh cong");
                 target = "homePage.jsp";
             }
 
             if (mode.equals("depositToCur")) {
+                int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
                 myUserManager.depositToCur(iUserId, iUserMoney);
                 System.out.println("nap tien vao CUR thanh cong");
 //                mySession.setAttribute("userBalance", myUserManager.checkBalance(iUserId));
@@ -68,6 +71,7 @@ public class ManageUserServlet extends HttpServlet {
             }
 
             if (mode.equals("transfer")) {
+                int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
                 int receiverId = Integer.valueOf(request.getParameter("receiverId"));
                 if (myUserManager.checkUserId(receiverId) == false) {
                     System.out.println("Receiver's ID not valid");

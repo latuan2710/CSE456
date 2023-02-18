@@ -3,5 +3,6 @@ Controller\RegisterUserServlet.class
 Controller\ManageUserServlet.class
 Model\manager\UserManager.class
 Model\entity\User.class
+Model\entity\Transaction.class
 Model\DAO\userDAO.class
 Model\connect\DBconnect.class

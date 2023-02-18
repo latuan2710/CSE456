@@ -39,7 +39,9 @@
         <% int userId = (int) session.getAttribute("userId");
             String userName = (String) session.getAttribute("userName");
             int userBalance = (int) session.getAttribute("userBalance");
-//            ArrayList<Transaction> listTransactions = (ArrayList<Transaction>) session.getAttribute("listTransactions");
+            String display=(String)session.getAttribute("displayTransaction");
+            
+            ArrayList<Transaction> list = (ArrayList<Transaction>) session.getAttribute("listTransactions");
         %>
         <div class="container-fluid">
             <div class="row">
@@ -50,6 +52,7 @@
                         <button class="btn btn-success" data_bt="checkBalance">Check Balance</button>
                         <br>
                         <a href="ManageUserServlet?mode=list"><button class="btn btn-success" data_bt="transactions">Show transactions</button></a>
+                        
                         <br> 
                         <button class="btn btn-success" data_bt="withdraw">Withdraw</button>
                         <br>
@@ -57,7 +60,6 @@
                         <br>
                         <button class="btn btn-success" data_bt="transfer">Transfer</button>
                         <br>
-
                         <a href="LoginServlet?mode=logOut"><button class="btn btn-success">Logout</button></a>
                     </div>
                 </div>
@@ -70,14 +72,21 @@
                             <br>
                         </div>
 
-                            <!--                        <div class="item transactions"style="display: none;">
-                                                        <h2>Transactions</h2>
-                                                        <div class="container">
-                                                            
-                                                        </div>
-                                                    </div>-->
+                        <div class="item transactions" style="display: none">
+                            <h2>Transactions</h2>
+                            <div class="container">
+                                
+                                <%
+                                    if (list != null) {
+                                        for (Transaction transaction : list) {
+                                            out.print("<p>" + transaction + "</p>");
+                                        }
+                                    }
+                                %>
+                            </div>
+                        </div>
 
-                        <div class="item withdraw"style="display: none;">
+                        <div class="item withdraw" style="display: none;">
                             <h2>Withdraw</h2>
                             <hr>
                             <form action="ManageUserServlet?mode=withdraw" method="POST">
@@ -87,7 +96,7 @@
                             </form>
                         </div>
 
-                        <div class="item deposit"style="display: none;">
+                        <div class="item deposit" style="display: none;">
                             <h2>Deposit</h2>
                             <hr>
                             <form action="ManageUserServlet?mode=depositToCur" method="POST">
@@ -97,7 +106,7 @@
                             </form>
                         </div>
 
-                        <div class="item transfer"style="display: none;">
+                        <div class="item transfer" style="display: none;">
                             <h2>Transfer</h2>
                             <hr>
                             <form action="ManageUserServlet?mode=transfer" method="POST">
@@ -126,10 +135,10 @@
 
             for (var i = 0; i < bt_elements.length; i++) {
                 bt_elements[i].addEventListener("click", function () {
-                    bt_elements.forEach(function (button) {
-                        button.classList.remove("active");
-                    });
-                    this.classList.add("acive");
+//                    bt_elements.forEach(function (button) {
+//                        button.classList.remove("active");
+//                    });
+//                    this.classList.add("active");
                     var bt_value = this.getAttribute("data_bt");
                     item_elements.forEach(function (item) {
                         item.style.display = "none";
