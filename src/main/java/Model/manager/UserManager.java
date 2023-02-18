@@ -68,14 +68,33 @@ public class UserManager {
         return -1;
     }
 
+    public int checkSavingBalance(int id) {
+        if (checkUserId(id) == true) {
+            return myUserDAO.checkSavingBalance(id);
+        }
+        return -1;
+    }
+
     public boolean withdraw(int id, int money) {
         myUserDAO.withdraw(id, money);
         return true;
 
     }
 
+    public boolean withdrawSaving(int id, int money) {
+        myUserDAO.withdrawSaving(id, money);
+        return true;
+
+    }
+
     public boolean depositToCur(int id, int money) {
         myUserDAO.depositToCur(id, money);
+        return true;
+
+    }
+
+    public boolean depositSaving(int id, int money) {
+        myUserDAO.depositSaving(id, money);
         return true;
 
     }
@@ -90,7 +109,10 @@ public class UserManager {
     }
 
     public ArrayList getlistTransactions(int id) {
-        return this.listTransaction = myUserDAO.showHistoryDeposit(id);
+        return this.listTransaction = myUserDAO.showHistory(id);
     }
 
+    public ArrayList getlistTransactionsSaving(int id) {
+        return this.listTransaction = myUserDAO.showHistorySaving(id);
+    }
 }

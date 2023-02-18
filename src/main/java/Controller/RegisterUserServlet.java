@@ -49,7 +49,7 @@ public class RegisterUserServlet extends HttpServlet {
             userAddress = request.getParameter("userAddress");
             userPhonenumber = Integer.valueOf(request.getParameter("userPhonenumber"));
 
-            User newUser = new User(userId, userName, userPassword, userEmail, userAddress, userPhonenumber,0);
+            User newUser = new User(userId, userName, userPassword, userEmail, userAddress, userPhonenumber,0,0);
 
             if (myUserManager.addUser(newUser)) {
                 System.out.println("Add success");

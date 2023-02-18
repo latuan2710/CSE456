@@ -2,6 +2,7 @@ E:\GIT\CSE456\src\main\java\Controller\LoginServlet.java
 E:\GIT\CSE456\src\main\java\Model\entity\Transaction.java
 E:\GIT\CSE456\src\main\java\Controller\ManageUserServlet.java
 E:\GIT\CSE456\src\main\java\Model\entity\User.java
+E:\GIT\CSE456\src\main\java\Model\entity\TransactionSaving.java
 E:\GIT\CSE456\src\main\java\Model\manager\UserManager.java
 E:\GIT\CSE456\src\main\java\Controller\RegisterUserServlet.java
 E:\GIT\CSE456\src\main\java\Model\DAO\userDAO.java

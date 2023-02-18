@@ -31,16 +31,27 @@
             .right h2{
                 margin: 30px 15px;
             }
+            #saving{
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                border-radius: 50%;
+                padding: 0;
+            }
+            #saving img{
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
         </style>
-
         <title>Home Page</title>
     </head>
     <body>
         <% int userId = (int) session.getAttribute("userId");
             String userName = (String) session.getAttribute("userName");
             int userBalance = (int) session.getAttribute("userBalance");
-            String display=(String)session.getAttribute("displayTransaction");
-            
+            String display = (String) session.getAttribute("displayTransaction");
+
             ArrayList<Transaction> list = (ArrayList<Transaction>) session.getAttribute("listTransactions");
         %>
         <div class="container-fluid">
@@ -52,7 +63,7 @@
                         <button class="btn btn-success" data_bt="checkBalance">Check Balance</button>
                         <br>
                         <a href="ManageUserServlet?mode=list"><button class="btn btn-success" data_bt="transactions">Show transactions</button></a>
-                        
+
                         <br> 
                         <button class="btn btn-success" data_bt="withdraw">Withdraw</button>
                         <br>
@@ -75,7 +86,6 @@
                         <div class="item transactions" style="display: none">
                             <h2>Transactions</h2>
                             <div class="container">
-                                
                                 <%
                                     if (list != null) {
                                         for (Transaction transaction : list) {
@@ -89,7 +99,7 @@
                         <div class="item withdraw" style="display: none;">
                             <h2>Withdraw</h2>
                             <hr>
-                            <form action="ManageUserServlet?mode=withdraw" method="POST">
+                            <form action="ManageUserServlet?mode=withdraw" method="POST" id="withdraw">
                                 <input type="text" name="userMoney" placeholder="Enter your money">
                                 <br>
                                 <button type="submit" class="btn btn-success" style="margin-top:20px">Submit</button>
@@ -99,7 +109,7 @@
                         <div class="item deposit" style="display: none;">
                             <h2>Deposit</h2>
                             <hr>
-                            <form action="ManageUserServlet?mode=depositToCur" method="POST">
+                            <form action="ManageUserServlet?mode=depositToCur" method="POST" id="deposit">
                                 <input type="text" name="userMoney" placeholder="Enter your money">
                                 <br>
                                 <button type="submit" class="btn btn-success" style="margin-top:20px">Submit</button>
@@ -109,7 +119,7 @@
                         <div class="item transfer" style="display: none;">
                             <h2>Transfer</h2>
                             <hr>
-                            <form action="ManageUserServlet?mode=transfer" method="POST">
+                            <form action="ManageUserServlet?mode=transfer" method="POST" id="transfer">
                                 <p>Receiver's Id:</p>
                                 <input type="text" name="receiverId" placeholder="Enter valid receiver's Id">
                                 <br>
@@ -123,13 +133,20 @@
                 </div>
             </div>
         </div>
-
+        <button id="saving" onclick="window.location.href = 'savingPage.jsp';">
+            <img src="image/saving_icon-removebg-preview.png" alt=""/>
+        </button>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
         <script type="text/javascript">
-
+//            $("#withdraw").submit(function (event) {
+//                if ($('input[name=userMoney]').val() > userBlance) {
+//                    alert("Handler for .submit() called.");
+//                    event.preventDefault();
+//                }
+//            });
             var bt_elements = document.querySelectorAll(".left button");
             var item_elements = document.querySelectorAll(".item");
 

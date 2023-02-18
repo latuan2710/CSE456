@@ -17,6 +17,7 @@ public class User {
     private String userAddress;
     private int userPhonenumber;
     private int userBalance;
+    private int savingBalance;
 
     public User() {
     }
@@ -39,7 +40,7 @@ public class User {
 
     }
 
-    public User(int userId, String userName, String userPassword, String userEmail, String userAddress, int userPhonenumber, int userBalance) {
+    public User(int userId, String userName, String userPassword, String userEmail, String userAddress, int userPhonenumber, int userBalance, int savingBalance) {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
@@ -47,6 +48,7 @@ public class User {
         this.userAddress = userAddress;
         this.userPhonenumber = userPhonenumber;
         this.userBalance = userBalance;
+        this.savingBalance = savingBalance;
     }
 
     public void setUserId(int userId) {
@@ -103,6 +105,14 @@ public class User {
 
     public int getUserBalance() {
         return userBalance;
+    }
+
+    public int getSavingBalance() {
+        return savingBalance;
+    }
+
+    public void setSavingBalance(int savingBalance) {
+        this.savingBalance = savingBalance;
     }
 
 }

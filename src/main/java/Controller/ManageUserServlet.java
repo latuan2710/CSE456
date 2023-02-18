@@ -5,6 +5,7 @@
 package Controller;
 
 import Model.entity.Transaction;
+import Model.entity.TransactionSaving;
 import Model.manager.UserManager;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,7 +36,7 @@ public class ManageUserServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
 
             String target = "";
             UserManager myUserManager = new UserManager();
@@ -52,8 +53,6 @@ public class ManageUserServlet extends HttpServlet {
                 mySession.setAttribute("displayTransaction", "block");
                 target = "homePage.jsp";
             }
-
-            
 
             if (mode.equals("withdraw")) {
                 int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
@@ -84,7 +83,31 @@ public class ManageUserServlet extends HttpServlet {
                 }
             }
 
+            if (mode.equals("depositSaving")) {
+                int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
+                myUserManager.depositSaving(iUserId, iUserMoney);
+                System.out.println("nap tien vao Saving thanh cong");
+//                mySession.setAttribute("userBalance", myUserManager.checkBalance(iUserId));
+                target = "savingPage.jsp";
+            }
+
+            if (mode.equals("withdrawSaving")) {
+                int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
+                myUserManager.withdrawSaving(iUserId, iUserMoney);
+                System.out.println("rut tien Saving thanh cong");
+                target = "savingPage.jsp";
+            }
+
+            if (mode.equals("listSaving")) {
+                System.out.println("check listSaving");
+                ArrayList<TransactionSaving> transactions = myUserManager.getlistTransactionsSaving(iUserId);
+                mySession.setAttribute("listSaving", transactions);
+                mySession.setAttribute("displayTransactionSaving", "block");
+                target = "savingPage.jsp";
+            }
+
             mySession.setAttribute("userBalance", myUserManager.checkBalance(iUserId));
+            mySession.setAttribute("savingBalance", myUserManager.checkSavingBalance(iUserId));
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
 
