@@ -68,21 +68,8 @@ public class UserManager {
         return -1;
     }
 
-    public int checkSavingBalance(int id) {
-        if (checkUserId(id) == true) {
-            return myUserDAO.checkSavingBalance(id);
-        }
-        return -1;
-    }
-
     public boolean withdraw(int id, int money) {
         myUserDAO.withdraw(id, money);
-        return true;
-
-    }
-
-    public boolean withdrawSaving(int id, int money) {
-        myUserDAO.withdrawSaving(id, money);
         return true;
 
     }
@@ -93,26 +80,18 @@ public class UserManager {
 
     }
 
-    public boolean depositSaving(int id, int money) {
-        myUserDAO.depositSaving(id, money);
-        return true;
-
-    }
-
     public boolean transfer(int id, int money, int anotherId) {
         System.out.println("check 1");
         if (checkUserId(id) == true) {
-            myUserDAO.transfer(id, anotherId, money);
+            myUserDAO.withdraw(id, money);
+            myUserDAO.depositToCur(anotherId, money);
             return true;
         }
         return false;
     }
 
     public ArrayList getlistTransactions(int id) {
-        return this.listTransaction = myUserDAO.showHistory(id);
+        return this.listTransaction = myUserDAO.showHistoryDeposit(id);
     }
 
-    public ArrayList getlistTransactionsSaving(int id) {
-        return this.listTransaction = myUserDAO.showHistorySaving(id);
-    }
 }

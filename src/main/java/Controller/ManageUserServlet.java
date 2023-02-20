@@ -5,7 +5,6 @@
 package Controller;
 
 import Model.entity.Transaction;
-import Model.entity.TransactionSaving;
 import Model.manager.UserManager;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,7 +35,7 @@ public class ManageUserServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
 
             String target = "";
             UserManager myUserManager = new UserManager();
@@ -50,19 +49,18 @@ public class ManageUserServlet extends HttpServlet {
                 System.out.println("check list");
                 ArrayList<Transaction> transactions = myUserManager.getlistTransactions(iUserId);
                 mySession.setAttribute("listTransactions", transactions);
-                mySession.setAttribute("displayTransaction", "block");
                 target = "homePage.jsp";
             }
 
+            int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
+
             if (mode.equals("withdraw")) {
-                int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
                 myUserManager.withdraw(iUserId, iUserMoney);
                 System.out.println("rut tien thanh cong");
                 target = "homePage.jsp";
             }
 
             if (mode.equals("depositToCur")) {
-                int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
                 myUserManager.depositToCur(iUserId, iUserMoney);
                 System.out.println("nap tien vao CUR thanh cong");
 //                mySession.setAttribute("userBalance", myUserManager.checkBalance(iUserId));
@@ -70,7 +68,6 @@ public class ManageUserServlet extends HttpServlet {
             }
 
             if (mode.equals("transfer")) {
-                int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
                 int receiverId = Integer.valueOf(request.getParameter("receiverId"));
                 if (myUserManager.checkUserId(receiverId) == false) {
                     System.out.println("Receiver's ID not valid");
@@ -83,31 +80,7 @@ public class ManageUserServlet extends HttpServlet {
                 }
             }
 
-            if (mode.equals("depositSaving")) {
-                int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
-                myUserManager.depositSaving(iUserId, iUserMoney);
-                System.out.println("nap tien vao Saving thanh cong");
-//                mySession.setAttribute("userBalance", myUserManager.checkBalance(iUserId));
-                target = "savingPage.jsp";
-            }
-
-            if (mode.equals("withdrawSaving")) {
-                int iUserMoney = Integer.valueOf(request.getParameter("userMoney"));
-                myUserManager.withdrawSaving(iUserId, iUserMoney);
-                System.out.println("rut tien Saving thanh cong");
-                target = "savingPage.jsp";
-            }
-
-            if (mode.equals("listSaving")) {
-                System.out.println("check listSaving");
-                ArrayList<TransactionSaving> transactions = myUserManager.getlistTransactionsSaving(iUserId);
-                mySession.setAttribute("listSaving", transactions);
-                mySession.setAttribute("displayTransactionSaving", "block");
-                target = "savingPage.jsp";
-            }
-
             mySession.setAttribute("userBalance", myUserManager.checkBalance(iUserId));
-            mySession.setAttribute("savingBalance", myUserManager.checkSavingBalance(iUserId));
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
 
